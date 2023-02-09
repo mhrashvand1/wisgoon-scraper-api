@@ -1,0 +1,92 @@
+version: "3.8"
+
+services:
+
+    app:
+        image: wisgoon-scraper-api:1.0.0
+        container_name: wisgoon-scraper-api
+        build: ./app
+        restart: always
+        expose:
+          - 8000
+        volumes:
+          - ./app/:/usr/src/app/
+          - ./static/:/usr/src/static/
+          - ./media/:/usr/src/media/
+        environment:
+            - DJANGO_SUPERUSER_USERNAME=rashvand
+            - DJANGO_SUPERUSER_EMAIL=rashvand@mail.com
+            - DJANGO_SUPERUSER_PASSWORD=1234
+            - SECRET_KEY="somthing"
+            - DEBUG=0
+            - ALLOWED_HOST="127.0.0.1 localhost wisgoon-scraper app wisgoon-scraper-api"
+            - INTERNAL_IPS="127.0.0.1 localhost wisgoon-scraper app wisgoon-scraper-api"
+            - DB_ENGINE=django.db.backends.postgresql
+            - DB_NAME=wisgoon_scraper
+            - DB_USER=wisgoon_scraper
+            - DB_PASSWORD=wisgoon_scraper
+            - DB_HOST=postgres
+            - DB_PORT=5432
+            - REDIS_HOST=redis
+            - REDIS_PORT=6379
+            # - RABBITMQ_USER=wisgoon_scraper
+            # - RABBITMQ_PASS=wisgoon_scraper
+            # - RABBITMQ_VHOST=wisgoon_scraper
+            # - RABBITMQ_HOST=rabbitmq
+            # - RABBITMQ_PORT=5672
+        depends_on:
+          - postgres
+          - redis
+          - nginx
+          #- rabbitmq
+
+    postgres:
+        image: postgres:15.1-alpine
+        ports:
+          - 5432:5432
+        environment:
+            POSTGRES_PORT: 5432
+            POSTGRES_DB: "wisgoon_scraper"
+            POSTGRES_USER: "wisgoon_scraper"
+            POSTGRES_PASSWORD: "wisgoon_scraper"
+        volumes:
+            - postgres-data:/var/lib/postgresql/data/
+
+    redis:
+        image: redis:6.2.7-alpine
+        ports:
+            - 6379:6379 
+        environment:
+            - ALLOW_EMPTY_PASSWORD=yes
+        volumes:
+            - redis-data:/data
+
+    nginx:
+        build: ./nginx
+        container_name: nginx
+        restart: always
+        ports:
+            - 80:80
+        volumes:
+            - ./static/:/static/
+            - ./media/:/media/
+
+    # rabbitmq:
+    #     image: rabbitmq:3.11.8-alpine
+    #     ports:
+    #         - "5672:5672"
+    #     environment:
+    #         HOSTNAME: rabbitmq
+    #         RABBITMQ_DEFAULT_USER: wisgoon_scraper
+    #         RABBITMQ_DEFAULT_PASS: wisgoon_scraper
+    #         RABBITMQ_DEFAULT_VHOST: wisgoon_scraper
+    #     volumes:
+    #         - rabbitmq-data:/var/lib/rabbitmq
+
+volumes:
+    postgres-data:
+    redis-data:
+    app:
+    static:
+    media:
+    # rabbitmq-data:

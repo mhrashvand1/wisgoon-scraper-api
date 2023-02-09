@@ -1,0 +1,15 @@
+# scrapy
+Scrapy
+# django
+django
+Pillow
+djangorestframework
+django-filter
+django-decouple
+gunicorn
+# celery
+celery
+# DB &  Message broker
+psycopg2-binary
+redis
+pika
