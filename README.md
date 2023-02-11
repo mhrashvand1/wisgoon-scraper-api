@@ -19,6 +19,8 @@ The Wisgoon scraper API, composed of Django Rest Framework, Scrapy, and Celery, 
 
 ### Notes
 
+- The page you want to crawl must be public, otherwise no posts will be scraped. 
+
 - If the worker is currently working on a task that scrapes the page with username "x", and you make a request to scrape the data of the page with username "x" again, a new task will not be run.  
 
 - If you have previously scraped the posts from page "x" and now you do it again, only the new posts will be scraped and added to the database.   
