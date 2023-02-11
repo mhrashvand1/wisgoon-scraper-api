@@ -30,6 +30,6 @@ CMD while ! python manage.py test_celery_broker > /dev/null 2>&1; do sleep 1; do
     python manage.py makemigrations --noinput && \
     python manage.py migrate --noinput && \
     python manage.py collectstatic --noinput && \ 
-    while python manage.py createsuperuser --noinput; do sleep 0.1; done && \
+    while python manage.py createsuperuser --noinput > /dev/null 2>&1; do sleep 0.1; done && \
     gunicorn -b 0.0.0.0:8000 config.wsgi;
 

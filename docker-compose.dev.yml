@@ -6,7 +6,7 @@ services:
         image: wisgoon-scraper-api:1.0.0
         container_name: wisgoon-scraper-api
         build: ./app
-        restart: always
+        restart: on-failure #always
         expose:
           - 8000
         volumes:
@@ -64,7 +64,7 @@ services:
     nginx:
         build: ./nginx
         container_name: nginx
-        restart: always
+        restart: on-failure #always
         ports:
             - 80:80
         volumes:
