@@ -38,7 +38,7 @@ Please note that "source" refers to the ID and creation time of the post on Wisg
 Clone and navigate to the `wisgoon-scraper-api` directory:
 
 ``` shell  
-git@github.com:mhrashvand1/wisgoon-scraper-api.git  
+git clone git@github.com:mhrashvand1/wisgoon-scraper-api.git  
 cd wisgoon-scraper-api 
 ```  
 
