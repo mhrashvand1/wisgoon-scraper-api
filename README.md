@@ -30,10 +30,6 @@ Please note that "source" refers to the ID and creation time of the post on Wisg
 
 - The display order of posts for each page is based on source_created, which you can change or filter based on. You can also search the title and text of posts.  
 
-- By running the project, a superuser will be generated with username "rashvand" and password "1234", which you can use to log in to the admin panel.
-
-
-
 -----  
 ## Run  
 
@@ -57,6 +53,11 @@ wisgoon-scraper-api | [2023-02-11 12:08:42 +0000] [1] [INFO] Using worker: sync
 wisgoon-scraper-api | [2023-02-11 12:08:42 +0000] [19] [INFO] Booting worker with pid: 19
 
 ```
+To make a superuser:  
+``` bash   
+docker-compose -f docker-compose.dev.yml exec app python manage.py createsuperuser
+```
+
 
 -----
 ## URLs  

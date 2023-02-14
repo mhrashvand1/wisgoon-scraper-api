@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config("SECRET_KEY", default="fbytght54e9uhgoc")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config("DEBUG", default=True, cast=lambda value: bool(int(value)))
+DEBUG = config("DEBUG", default=False, cast=lambda value: bool(int(value)))
 
 def parse_list_cast(value):
     if type(value) == str:
@@ -87,11 +87,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     "default": {
-        "ENGINE": config("DB_ENGINE", default="django.db.backends.sqlite3"),
-        "NAME": config("DB_NAME", default="db.sqlite3"),
+        "ENGINE": config("DB_ENGINE", default="django.db.backends.postgresql"),
+        "NAME": config("DB_NAME", default="wisgoon_scraper"),
         "USER": config("DB_USER", default="wisgoon_scraper"),
         "PASSWORD": config("DB_PASSWORD", default="wisgoon_scraper"),
-        "HOST": config("DB_HOST", default="localhost"),
+        "HOST": config("DB_HOST", default="postgres"),
         "PORT": config("DB_PORT", default=5432),
     }
 }
@@ -175,11 +175,11 @@ PROJECT_SCHEMA = "http"
 # RABBITMQ_USER = config('RABBITMQ_USER', default="wisgoon_scraper")
 # RABBITMQ_PASS = config('RABBITMQ_PASS', default="wisgoon_scraper")
 # RABBITMQ_VHOST = config('RABBITMQ_VHOST', default="wisgoon_scraper")
-# RABBITMQ_HOST = config('RABBITMQ_HOST', default="localhost")
+# RABBITMQ_HOST = config('RABBITMQ_HOST', default="rabbitmq")
 # RABBITMQ_PORT = config('RABBITMQ_PORT', default=5672)
 
 # redis
-REDIS_HOST = config("REDIS_HOST", "localhost")
+REDIS_HOST = config("REDIS_HOST", "redis")
 REDIS_PORT = config("REDIS_PORT", 6379)
 
 # Celery settings:

@@ -6,39 +6,20 @@ services:
         image: wisgoon-scraper-api:1.0.0
         container_name: wisgoon-scraper-api
         build: ./app
-        restart: on-failure #always
+        restart: on-failure
         expose:
           - 8000
         volumes:
           - ./app/:/usr/src/app/
           - ./static/:/usr/src/static/
           - ./media/:/usr/src/media/
-        environment:
-            - DJANGO_SUPERUSER_USERNAME=rashvand
-            - DJANGO_SUPERUSER_EMAIL=rashvand@mail.com
-            - DJANGO_SUPERUSER_PASSWORD=1234
-            - SECRET_KEY="somthing"
-            - DEBUG=0
-            - ALLOWED_HOST="127.0.0.1 localhost wisgoon-scraper app wisgoon-scraper-api"
-            - INTERNAL_IPS="127.0.0.1 localhost wisgoon-scraper app wisgoon-scraper-api"
-            - DB_ENGINE=django.db.backends.postgresql
-            - DB_NAME=wisgoon_scraper
-            - DB_USER=wisgoon_scraper
-            - DB_PASSWORD=wisgoon_scraper
-            - DB_HOST=postgres
-            - DB_PORT=5432
-            - REDIS_HOST=redis
-            - REDIS_PORT=6379
-            # - RABBITMQ_USER=wisgoon_scraper
-            # - RABBITMQ_PASS=wisgoon_scraper
-            # - RABBITMQ_VHOST=wisgoon_scraper
-            # - RABBITMQ_HOST=rabbitmq
-            # - RABBITMQ_PORT=5672
         depends_on:
           - postgres
           - redis
           - nginx
           #- rabbitmq
+        # env_file:
+        #     - .env
 
     postgres:
         image: postgres:15.1-alpine
@@ -64,7 +45,7 @@ services:
     nginx:
         build: ./nginx
         container_name: nginx
-        restart: on-failure #always
+        restart: on-failure
         ports:
             - 80:80
         volumes:
@@ -86,7 +67,4 @@ services:
 volumes:
     postgres-data:
     redis-data:
-    app:
-    static:
-    media:
     # rabbitmq-data:
