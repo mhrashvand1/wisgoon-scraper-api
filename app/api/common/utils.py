@@ -1,8 +1,7 @@
-from config.settings import PROJECT_HOST, PROJECT_PORT, PROJECT_SCHEMA
-
+from django.conf import settings
 
 def get_abs_url(path):
-    main_url = PROJECT_SCHEMA + "://" + PROJECT_HOST + ":" + PROJECT_PORT
+    main_url = settings.PROJECT_SCHEMA + "://" + settings.PROJECT_HOST + ":" + settings.PROJECT_PORT
     if not path.startswith('/'):
         path = '/' + path
     if not path.endswith('/'):

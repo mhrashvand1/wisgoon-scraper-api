@@ -1,27 +1,23 @@
 from django.core.management.base import BaseCommand
-from config.settings import CELERY_BROKER_URL
+from django.conf import settings
 
 
 class Command(BaseCommand):
     help = 'Displays current time'
 
     def handle(self, *args, **kwargs):
-        if CELERY_BROKER_URL.startswith("amqp"):
-            from config.settings import (
-                RABBITMQ_USER,
-                RABBITMQ_PASS,
-                RABBITMQ_VHOST,
-                RABBITMQ_HOST,
-                RABBITMQ_PORT,
-            )
+        if settings.CELERY_BROKER_URL.startswith("amqp"):
             import pika
-            credentials = pika.PlainCredentials(username=RABBITMQ_USER, password=RABBITMQ_PASS)
+            credentials = pika.PlainCredentials(
+                username=settings.RABBITMQ_USER, 
+                password=settings.RABBITMQ_PASS
+            )
             try:
                 connection = pika.BlockingConnection(
                     pika.ConnectionParameters(
-                        host=RABBITMQ_HOST,
-                        port=RABBITMQ_PORT,
-                        virtual_host=RABBITMQ_VHOST,
+                        host=settings.RABBITMQ_HOST,
+                        port=settings.RABBITMQ_PORT,
+                        virtual_host=settings.RABBITMQ_VHOST,
                         credentials=credentials
                     )
                 )
@@ -29,11 +25,13 @@ class Command(BaseCommand):
             except pika.exceptions.AMQPConnectionError:
                 raise Exception("RabbitMQ server is not loaded")
             
-        elif CELERY_BROKER_URL.startswith("redis"):
-            from config.settings import REDIS_HOST, REDIS_PORT
+        elif settings.CELERY_BROKER_URL.startswith("redis"):
             from redis import Redis
             try:
-                r = Redis(host=REDIS_HOST, port=REDIS_PORT)
+                r = Redis(
+                    host=settings.REDIS_HOST, 
+                    port=settings.REDIS_PORT
+                )
                 r.ping()
             except:
                 raise Exception("Redis server is not loaded")
