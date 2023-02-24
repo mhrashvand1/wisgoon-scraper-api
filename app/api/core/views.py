@@ -34,7 +34,12 @@ class PageAPIView(GenericAPIView):
         qs = Page.objects.filter(username=username)
         if qs.exists():
             last_post_datetime = None
-            newest_post = Post.objects.filter(page__username=username).order_by("-source_created").first()
+            newest_post = Post.objects.prefetch_related(
+                'page'
+            ).filter(
+                page__username=username
+            ).order_by("-source_created").first()
+            
             if newest_post:
                 last_post_datetime = datetime.strftime(
                     newest_post.source_created,
@@ -77,7 +82,12 @@ class PostListAPIView(GenericAPIView):
     
     def get_queryset(self):
         page_username = self.kwargs.get("username", '')
-        return Post.objects.filter(page__username=page_username)
+        queryset = Post.objects.prefetch_related(
+            'page', 'media_set'
+        ).filter(
+            page__username=page_username
+        )
+        return queryset
     
     def get(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
@@ -98,7 +108,12 @@ class PostRetrieveAPIView(GenericAPIView):
 
     def get_queryset(self):
         page_username = self.kwargs.get("username", '')
-        return Post.objects.filter(page__username=page_username)
+        queryset = Post.objects.prefetch_related(
+            'page', 'media_set'
+        ).filter(
+            page__username=page_username
+        )
+        return queryset
     
     def get(self, request, *args, **kwargs):
         instance = self.get_object()
