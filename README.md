@@ -57,7 +57,7 @@ To make a superuser:
 ``` bash   
 docker-compose -f docker-compose.dev.yml exec app python manage.py createsuperuser
 ```
-
+The project will be accessed on `localhost` at port `80`.   
 
 -----
 ## URLs  
